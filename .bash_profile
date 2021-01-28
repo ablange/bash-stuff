@@ -1,3 +1,6 @@
+# Create alias commands
+alias ll='ls -all'
+
 # Git script for showing branch in prompt	
 source ~/.git-prompt.sh
 
@@ -13,3 +16,9 @@ export PATH
 # The original version is saved in .bash_profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
 export PATH
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ablange/repos/google-cloud-sdk/path.bash.inc' ]; then . '/Users/ablange/repos/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ablange/repos/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/ablange/repos/google-cloud-sdk/completion.bash.inc'; fi
