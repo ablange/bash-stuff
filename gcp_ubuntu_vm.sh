@@ -1,13 +1,14 @@
+##############################################################################
 #
 #        Configure Ubuntu Desktop on GCP
 #		 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 # Dependencies:
-#     (1) Google Cloud Platform account & project
-#     (2) VNCServer Client - https://www.realvnc.com/en/connect/download/viewer/
+#     (1) Google Cloud Platform (account & project)
+#     (2) VNC Viewer (https://www.realvnc.com/en/connect/download/viewer/)
 #
-
-# Install gcloud
+##############################################################################
+# Install gcloud on local
 cd ~/repos/
 curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-325.0.0-darwin-x86_64.tar.gz;
 tar -xf google-cloud-sdk-325.0.0-darwin-x86_64.tar.gz;
@@ -27,8 +28,8 @@ gcloud beta compute instances create andrewblange-workspace \
     --zone=us-central1-a \
     --machine-type=e2-medium \
     --subnet=default \
-    --network-tier=PREMIUM 
-    --maintenance-policy=MIGRATE 
+    --network-tier=PREMIUM \
+    --maintenance-policy=MIGRATE \
     --service-account=700881912045-compute@developer.gserviceaccount.com \
     --scopes=https://www.googleapis.com/auth/cloud-platform \
     --tags=http-server,https-server \
@@ -42,7 +43,14 @@ gcloud beta compute instances create andrewblange-workspace \
     --shielded-integrity-monitoring \
     --reservation-affinity=any;
 
-# Install dependencies
+#########################################
+# SSH into Ubuntu VM
+#########################################
+# First complete the following steps in the Google Console UI:
+#    'Compute' > 'VMs' > Select VM > 'SSH' > 'Open in Browser Window'
+#
+# Then run steps 1-6 in the VM:
+# (1) Install dependencies
 sudo apt-get update;
 sudo apt-get upgrade;
 sudo apt-get install gnome-shell;
@@ -52,14 +60,14 @@ sudo apt-get install gnome-core;
 sudo apt-get install gnome-panel;
 sudo apt-get install gnome-themes-standard;
 
-# Install VNC Server
+# (2) Install VNC Server
 sudo apt-get install tightvncserver;
 touch ~/.Xresources;
 
-# Launch VNC Server (create password if first time)
+# (3) Launch VNC Server (create password if first time)
 tightvncserver
 
-# Edit VNC startup script
+# (4) Edit VNC startup script
 vim /home/andrew_lange93/.vnc/xstartup;
 """
 #!/bin/sh
@@ -73,11 +81,19 @@ unset DBUS_SESSION_BUS_ADDRESS
 gnome-session --session=gnome-flashback-metacity --disable-acceleration-check --debug &
 """
 
-# Restart server to persist changes
+# (5) Kill server (must restart to run startup script)
 vncserver -kill :1;
+
+# (6) Start VNC server & set resolution size
 vncserver -geometry 1024x640;
 
-# SSH into VM
+# (optional)
+exit
+
+#########################################
+# Run the following in Local
+#########################################
+# SSH into VM on port 5091
 gcloud compute ssh andrewblange-workspace \
     --project andrewblange \
     --zone us-central1-a \
@@ -86,3 +102,19 @@ gcloud compute ssh andrewblange-workspace \
 # Launch VNC Viewer
 # Enter URL: localhost:5901
 # Enter password that was previously created by tightvncserver
+
+
+#########################################
+# Useful
+#########################################
+# List VNC instances
+ps -ef | grep vnc;
+
+# Kill a VNC instance
+vncserver -kill :<instance-number>;
+vncserver -kill :1;
+
+# Start a new VNC instance & set resolution size
+# vncserver -geometry 1024x640;   # small
+vncserver -geometry 1680x1050;  # medium
+# vncserver -geometry 2560x1540;  # large
