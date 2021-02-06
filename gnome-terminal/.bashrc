@@ -1,3 +1,4 @@
+# Need this to get colors working in command prompt
 eval `dircolors /path/to/dircolorsdb`
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
