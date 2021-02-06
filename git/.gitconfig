@@ -1,0 +1,7 @@
+[user]
+	email = andrew.lange93@gmail.com
+	name = ablange
+[alias]
+	lga = log --graph --oneline --all --decorate
+[credential]
+	helper = store
