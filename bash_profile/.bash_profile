@@ -1,24 +1,23 @@
-# enables branch name to be displayed in command prompt
+# Enable git branch name to be displayed in prompt
 source ~/.git-prompt.sh
 
-# enable auto-completion of branch names at command line
+# Enable auto-completion of git branch names
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
 
-# aliases
+# Set aliases
 alias ll='ls -all'
 
-# .bash_profile
+# Set prompt
 export PS1='\e[0;34m[\u@\h]\e[m \e[0;95m(\w)\e[m $(__git_ps1 "\e[0;92m(%s)\e[m") \n\$ '
 
-# Get the aliases and functions
+# Get aliases and functions
 if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
 
-# User specific environment and startup programs
-
+# Set user specific environment and startup programs
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 
 export PATH
