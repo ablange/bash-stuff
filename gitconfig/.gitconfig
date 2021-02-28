@@ -3,5 +3,10 @@
 	name = ablange
 [alias]
 	lga = log --graph --oneline --all --decorate
+        s = status
+	bs = branch -a
+	d = diff
+	addall = add -A
+	com = commit -m
 [credential]
 	helper = store
